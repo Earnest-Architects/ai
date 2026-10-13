@@ -11,7 +11,7 @@ Pengaturan lewat environment variable:
   PASSWORD  kunci akses opsional  (kosong = tanpa kunci)
   ORIGIN    domain yang boleh memanggil API (default *, mis. https://namamu.github.io)
 """
-import os, socket, urllib.request, urllib.error
+import hmac, os, socket, threading, time, urllib.request, urllib.error
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 COMFY = os.environ.get("COMFY", "http://127.0.0.1:8000").rstrip("/")
@@ -19,6 +19,8 @@ PORT = int(os.environ.get("PORT", "8080"))
 PASSWORD = os.environ.get("PASSWORD", "")
 ORIGIN = os.environ.get("ORIGIN", "*")
 HERE = os.path.dirname(os.path.abspath(__file__))
+FAILS, LOCK_UNTIL, LOCK = [], [0.0], threading.Lock()   # batas percobaan kunci salah (untuk akses publik)
+MAX_FAILS, WINDOW = 20, 600                               # 20 kegagalan dalam 10 menit -> API dikunci 10 menit
 ALLOWED = ("/prompt", "/history", "/upload/image", "/view", "/system_stats")
 
 
@@ -46,8 +48,22 @@ class H(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if not any(path == p or path.startswith(p + "/") for p in ALLOWED):
             return self._send(404, "text/plain", b"Not found")
-        if PASSWORD and self.headers.get("X-Access-Key", "") != PASSWORD:
-            return self._send(401, "text/plain", b"Kunci akses salah")
+        if PASSWORD:
+            now = time.time()
+            with LOCK:
+                FAILS[:] = [t for t in FAILS if now - t < WINDOW]
+                locked = now < LOCK_UNTIL[0]
+            if locked:
+                return self._send(429, "text/plain", b"Terlalu banyak percobaan salah. Coba lagi beberapa menit.")
+            given = self.headers.get("X-Access-Key", "").encode()
+            if not hmac.compare_digest(given, PASSWORD.encode()):
+                with LOCK:
+                    FAILS.append(now)
+                    if len(FAILS) >= MAX_FAILS:
+                        LOCK_UNTIL[0] = now + WINDOW
+                        FAILS.clear()
+                time.sleep(1)
+                return self._send(401, "text/plain", b"Kunci akses salah")
         n = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(n) if n else None
         req = urllib.request.Request(COMFY + self.path, data=body, method=self.command)
@@ -89,5 +105,5 @@ if __name__ == "__main__":
     print(f"ComfyUI   : {COMFY}")
     print(f"Di PC ini : http://localhost:{PORT}")
     print(f"Di HP/LAN : http://{lan_ip()}:{PORT}")
-    print("Kunci akses:", "aktif" if PASSWORD else "tidak diatur")
+    print("Kunci akses:", "aktif" if PASSWORD else "TIDAK DIATUR (jangan buka ke internet tanpa PASSWORD)")
     ThreadingHTTPServer(("0.0.0.0", PORT), H).serve_forever()
