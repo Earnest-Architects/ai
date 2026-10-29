@@ -1,0 +1,39 @@
+/* AIタブ — 下部の入力カード(画像2・プロンプト・生成) */
+.composer{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:3;width:min(640px,calc(100% - 24px));margin:0 auto;padding:8px;border-radius:var(--r-l);background:var(--glass);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);transition:border-color .25s,box-shadow .25s}
+.composer:focus-within{border-color:var(--line-hi);box-shadow:0 18px 50px rgba(0,0,0,.45),0 0 0 4px rgba(126,232,210,.12)}
+.composer.hide{display:none}
+.c-row{display:flex;align-items:flex-end;gap:8px}
+.drop{position:relative;flex:none;width:48px;height:48px;display:grid;place-items:center;border:1px dashed var(--line-hi);border-radius:16px;background:rgba(255,255,255,.05);color:var(--fg-2);cursor:pointer;overflow:hidden;transition:background .2s}
+.drop.over,.drop:hover{background:var(--glass-hi)}
+.drop.full{border-color:var(--acc);cursor:default}
+.drop .ref-count{position:absolute;right:3px;bottom:3px;min-width:20px;padding:2px 3px;border-radius:7px;background:rgba(4,7,13,.82);font:600 .55rem/1 var(--font);letter-spacing:.02em;color:#fff;text-align:center}
+/* 参照画像のサムネイル(追加順) */
+.ref-list{display:none;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 2px 8px;scrollbar-width:thin}
+.ref-list.has{display:flex}
+.ref{position:relative;flex:none;width:52px;height:52px;margin:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--glass)}
+.ref img{display:block;width:100%;height:100%;object-fit:cover}
+.ref-n{position:absolute;left:4px;top:4px;min-width:16px;height:16px;display:grid;place-items:center;padding:0 4px;border-radius:999px;background:rgba(4,7,13,.8);font:600 .6rem/1 var(--font);color:#fff}
+.ref-x{position:absolute;right:2px;top:2px;width:20px;height:20px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(4,7,13,.72);color:#fff;cursor:pointer;opacity:0;transition:opacity .15s,background .15s}
+.ref:hover .ref-x,.ref-x:focus-visible{opacity:1}
+.ref-x:hover{background:rgba(255,59,59,.92)}
+.ref-x svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+@media(hover:none){.ref-x{opacity:1}}
+.drop .ico svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.drop input{display:none}
+.drop:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#pos{flex:1;min-width:0;min-height:48px;max-height:30vh;resize:none;padding:12px 6px;border:0;outline:0;background:transparent;color:#fff;font:inherit;line-height:1.5}
+/* Mobile: allow the placeholder to wrap without being clipped */
+@media(max-width:560px){#pos{min-height:64px}}
+#pos::placeholder{color:var(--fg-3)}
+.go{position:relative;flex:none;width:48px;height:48px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:#fff;color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .25s,opacity .2s}
+.go svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.go:hover{box-shadow:0 0 0 6px rgba(255,255,255,.14)}
+.go:active{transform:scale(.93)}
+.go:disabled{opacity:.45;cursor:wait;box-shadow:none}
+.go:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+#markinfo{display:none;align-items:center;gap:8px;margin:2px 8px 8px;font-size:.78rem;color:var(--fg-2)}
+#markinfo::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 0 3px rgba(255,59,59,.25)}
+#status{padding:0 10px;font-size:.8rem;color:var(--fg-3);overflow-wrap:anywhere}
+#status:not(:empty){padding:6px 10px 4px}
+#status.err{color:var(--err)}

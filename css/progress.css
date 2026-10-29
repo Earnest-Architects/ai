@@ -1,0 +1,29 @@
+/* AIタブ — 生成中の演出(WebGLシェーダー + リング + %) */
+#prog{position:absolute;inset:0;z-index:5;display:none;place-items:center;pointer-events:none;transition:opacity .4s ease}
+#prog.show{display:grid}
+#prog.done{opacity:0}
+#prog::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 50%,rgba(4,6,12,.62),rgba(4,6,12,.26))}
+#fx{position:absolute;inset:0;width:100%;height:100%}
+.pc{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px;text-align:center;text-shadow:0 2px 18px rgba(0,0,0,.65)}
+.ringbox{position:relative;width:min(220px,56vw);aspect-ratio:1}
+.ringbox svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.ringbox circle{fill:none}
+.ringbox .bg{stroke:rgba(255,255,255,.16);stroke-width:2}
+.ringbox .fg{stroke:url(#rg);stroke-width:3;stroke-linecap:round;stroke-dasharray:326.73;stroke-dashoffset:326.73;filter:drop-shadow(0 0 6px rgba(126,232,210,.7))}
+.ringbox #tip{fill:#fff;filter:drop-shadow(0 0 5px #fff)}
+#pct{position:absolute;inset:0;display:grid;place-items:center}
+#pct b{font-weight:200;font-size:clamp(2.8rem,13vw,3.8rem);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+#pct i{font-style:normal;font-size:1rem;opacity:.7;margin-left:3px}
+#stage{margin-top:6px;font-size:.95rem;font-weight:500}
+#sub{min-height:1.4em;font-size:.8rem;color:var(--fg-2)}
+#el{font-size:.72rem;color:var(--fg-3);font-variant-numeric:tabular-nums}
+#prog.nogl::after{content:"";position:absolute;inset:-20%;background:conic-gradient(#7ee8d255,#8fb4ff55,#ffd6a055,#7ee8d255);filter:blur(60px)}
+@media(prefers-reduced-motion:no-preference){
+  .ringbox .fg{transition:stroke-dashoffset .25s linear}
+  #sub.swap{animation:subin .6s var(--ease)}
+  #prog.slow .ringbox{animation:breathe 2.4s ease-in-out infinite}
+  #prog.nogl::after{animation:spin 14s linear infinite}
+}
+@keyframes subin{from{opacity:0;translate:0 6px}}
+@keyframes breathe{50%{scale:1.03;opacity:.85}}
+@keyframes spin{to{rotate:360deg}}

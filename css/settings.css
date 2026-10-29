@@ -1,0 +1,13 @@
+/* AIタブ — 接続設定(初期は閉じている) */
+#set{position:absolute;z-index:4;right:calc(12px + env(safe-area-inset-right,0px));top:calc(var(--top-h,64px) + 6px);width:min(360px,calc(100% - 24px));display:none;padding:14px;border-radius:var(--r-m);background:rgba(10,14,24,.78);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.5);font-size:.85rem;-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5)}
+#set.open{display:block}
+#set h2{margin:0 0 2px;font-size:.9rem;font-weight:600}
+.fld{display:flex;align-items:center;gap:10px;height:46px;margin-top:8px;padding:0 14px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--fg-2)}
+.fld:focus-within{border-color:var(--line-hi)}
+.fld svg{flex:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.fld input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font:inherit;font-size:.85rem}
+.fld input::placeholder{color:var(--fg-3)}
+.btn-t{height:40px;margin-top:10px;padding:0 18px;border:1px solid var(--line-hi);border-radius:999px;background:transparent;color:#fff;font:inherit;font-size:.85rem;cursor:pointer;transition:background .2s}
+.btn-t:hover{background:var(--glass-hi)}
+.btn-t:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#conn{margin-top:8px;color:var(--fg-2)}#conn.ok{color:var(--ok)}#conn.bad{color:var(--err)}

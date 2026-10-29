@@ -1,0 +1,16 @@
+/* AIタブ — 右側の生成履歴 */
+#hist{position:absolute;z-index:3;right:calc(8px + env(safe-area-inset-right,0px));top:calc(var(--top-h,64px) + 6px);bottom:calc(var(--panel-h,0px) + 8px);width:76px;display:none;flex-direction:column;align-items:center;gap:6px;padding:6px;border-radius:var(--r-m);background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.hero.hopen #hist{display:flex}
+.hero.hopen{--hist-w:88px}
+.hero.nopanel #hist{bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+@media(min-width:860px){#hist{bottom:12px}}
+#hlist{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;gap:8px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none}
+#hlist::-webkit-scrollbar{display:none}
+.hi{position:relative;flex:none}
+.ht{display:block;width:100%;padding:0;border:2px solid transparent;border-radius:12px;background:#000;cursor:pointer;overflow:hidden}
+.hi.act .ht{border-color:#fff}
+.ht:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ht img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.hx{position:absolute;top:3px;right:3px;width:22px;height:22px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;font-size:14px;line-height:22px;cursor:pointer}
+.hx::after{content:"";position:absolute;inset:-9px}
+#hempty{font-size:.7rem;color:var(--fg-3);text-align:center;padding:6px 0}

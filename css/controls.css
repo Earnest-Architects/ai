@@ -1,0 +1,35 @@
+/* AIタブ — 共通アイコンボタン(.ib)とツールバー(.tb) */
+.top{position:absolute;inset:0 0 auto 0;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) 0 calc(12px + env(safe-area-inset-left,0px));pointer-events:none}
+/* Soft scrim so the brand stays readable over bright images */
+.top::before{content:"";position:absolute;inset:-12px -12px -28px;z-index:-1;background:linear-gradient(180deg,rgba(4,7,13,.62),rgba(4,7,13,0));pointer-events:none}
+.top>*{pointer-events:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
+.ib{position:relative;flex:none;width:var(--btn);height:var(--btn);display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:#fff;text-decoration:none;cursor:pointer;transition:background .2s,color .2s,transform .15s}
+.ib svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.ib:hover{background:var(--glass-hi)}
+.ib:active{transform:scale(.92)}
+.ib[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.ib:disabled{opacity:.4;cursor:default}
+.ib:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ib[hidden]{display:none}
+.ib.glass{background:var(--glass);border:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
+.ib.glass:hover{background:var(--glass-hi)}
+/* Language switch (header: EN / JA) */
+.ib.lang{width:auto;display:inline-flex;align-items:center;gap:6px;padding:0 12px 0 10px;border-radius:999px;font:600 .72rem/1 var(--font);letter-spacing:.06em}
+.ib.lang .ico{display:grid;place-items:center;width:18px;height:18px;opacity:.85}
+.ib.lang .ico svg{width:18px;height:18px}
+.ib.lang .lang-label{transform:translateY(.5px)}
+@media(max-width:420px){.ib.lang{padding:0 10px 0 8px}}
+/* Mobile: stack branding above the toolbar so the full lockup stays visible */
+@media(max-width:560px){
+  .top{flex-wrap:wrap;row-gap:6px}
+  .brand{flex:1 1 100%;padding:4px 2px 0}
+  .top .tb{margin-left:auto}
+}
+/* Tooltip (mouse only) */
+@media(hover:hover){
+  .ib[data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 10px);right:0;white-space:nowrap;padding:5px 10px;border-radius:8px;background:rgba(8,12,20,.94);border:1px solid var(--line);font-size:.72rem;color:#fff;opacity:0;transform:translateY(-3px);pointer-events:none;transition:opacity .15s,transform .15s;z-index:9}
+  .ib[data-tip]:hover::after{opacity:1;transform:none}
+  #tools .ib::after{right:auto;left:0}
+  .acts .ib::after,.composer .ib::after{top:auto;bottom:calc(100% + 10px)}
+}

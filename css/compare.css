@@ -1,0 +1,13 @@
+/* AIタブ — 比較スライダーと結果アクション */
+#cmp{position:absolute;display:none;z-index:1;touch-action:none;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+#cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;pointer-events:none;-webkit-user-drag:none}
+#cmpB{clip-path:inset(0 0 0 var(--pos,50%))}
+#bar{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,.6);pointer-events:none}
+#knob{position:absolute;top:50%;left:var(--pos,50%);width:46px;height:46px;margin:-23px 0 0 -23px;display:grid;place-items:center;border-radius:50%;background:#fff;color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.5);cursor:ew-resize}
+#knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#knob:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.tag{position:absolute;top:calc(var(--top-h,64px) + 8px);padding:4px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:.75rem;pointer-events:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.acts{position:absolute;z-index:4;right:calc(14px + env(safe-area-inset-right,0px) + var(--hist-w,0px));bottom:calc(var(--panel-h,0px) + 14px);display:none;gap:8px}
+.acts.show{display:flex}
+@media(min-width:1060px){.acts{bottom:14px}}
+.hero.nopanel .acts{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
